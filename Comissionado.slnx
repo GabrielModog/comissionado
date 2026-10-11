@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Data/">
     <File Path="vendas.json" />
+    <File Path="estoque.json" />
   </Folder>
   <Project Path="Comissionado.App/Comissionado.App.csproj" />
   <Project Path="Comissionado.Core/Comissionado.Core.csproj" />
