@@ -32,29 +32,26 @@ public partial class Form1 : Form
     private void Form1_Load(object? sender, EventArgs e)
     {
         cboTipo.DataSource = Enum.GetValues<TipoMovimentacao>();
-        CarregarEstoque();
+
+        try
+        {
+            EstoqueRepositorio.Inicializar(_estoquePath);
+            CarregarEstoque();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Falha ao inicializar o banco de estoque: {ex.Message}", "Erro",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private void CarregarEstoque()
     {
-        try
-        {
-            _produtos = JsonDataLoader.CarregarEstoque(_estoquePath);
-            cboProduto.DataSource = null;
-            cboProduto.DataSource = _produtos;
-            cboProduto.DisplayMember = nameof(EstoqueProduto.DescricaoProduto);
-            AtualizarGridEstoque();
-        }
-        catch (FileNotFoundException)
-        {
-            MessageBox.Show($"Arquivo não encontrado: {_estoquePath}", "Erro",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Falha ao carregar estoque: {ex.Message}", "Erro",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        _produtos = EstoqueRepositorio.ObterProdutos();
+        cboProduto.DataSource = null;
+        cboProduto.DataSource = _produtos;
+        cboProduto.DisplayMember = nameof(EstoqueProduto.DescricaoProduto);
+        AtualizarGridEstoque();
     }
 
     private void AtualizarGridEstoque()
@@ -99,12 +96,13 @@ public partial class Form1 : Form
 
         try
         {
-            var movimentacao = MovimentarProduto.Movimentar(produto, tipo, quantidade, descricao);
+            var (movimentacao, quantidadeFinal) =
+                EstoqueRepositorio.Movimentar(produto.CodigoProduto, tipo, quantidade, descricao);
             lblResultado.Text = $"ID: {movimentacao.Id}{Environment.NewLine}" +
-                                $"Quantidade final: {produto.Estoque}";
+                                $"Quantidade final: {quantidadeFinal}";
             txtDescricao.Clear();
             numQuantidade.Value = 1;
-            AtualizarGridEstoque();
+            CarregarEstoque();
         }
         catch (ArgumentException ex)
         {

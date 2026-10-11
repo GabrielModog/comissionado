@@ -5,6 +5,9 @@ namespace Comissionado.Core;
 
 public class AppDbContext : DbContext
 {
+    public DbSet<EstoqueProduto> Produtos => Set<EstoqueProduto>();
+    public DbSet<Movimentacao> Movimentacoes => Set<Movimentacao>();
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlite("FileName=comissionado.db");
@@ -17,6 +20,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Movimentacao>(entity =>
         {
             entity.HasKey(x => x.Id);
+        });
+        modelBuilder.Entity<EstoqueProduto>().ToTable("Produto");
+        modelBuilder.Entity<EstoqueProduto>(entity =>
+        {
+            entity.HasKey(x => x.CodigoProduto);
         });
         base.OnModelCreating(modelBuilder);
     }
