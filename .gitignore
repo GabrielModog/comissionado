@@ -96,6 +96,9 @@ bld/
 
 
 
+# SQLite database (generated at runtime)
+*.db
+
 # Build results on 'Bin' directories
 
 **/[Bb]in/*
