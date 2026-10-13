@@ -18,6 +18,7 @@ public partial class Form1 : Form
         ConfigurarGrids();
         btnCalcular.Click += btnCalcular_Click;
         btnLancar.Click += btnLancar_Click;
+        btnCalcularJuros.Click += btnCalcularJuros_Click;
         Load += Form1_Load;
     }
 
@@ -114,5 +115,16 @@ public partial class Form1 : Form
             MessageBox.Show(ex.Message, "Estoque insuficiente",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+    }
+
+    private void btnCalcularJuros_Click(object? sender, EventArgs e)
+    {
+        var valor = numValor.Value;
+        var dataVencimento = dtpDataVencimento.Value;
+        var dataConsulta = dtpDataConsulta.Value;
+
+        var valorAtualizado = AplicarJurosMulta.Executar(valor, dataVencimento, dataConsulta);
+
+        lblResultadoJuros.Text = $"Valor atualizado: {valorAtualizado.ToString("C2", _ptBr)}";
     }
 }
