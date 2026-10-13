@@ -19,7 +19,7 @@ public class ObterComissaoTest
              new() { Vendedor = "João Silva", ValorProduzido = 1200.50m, ValorComissao = 1260.525m  },
         };
         
-        var comissaoObtida = CalculoComissao.CalcularComissao(vendas.Take(1).ToList());
+        var comissaoObtida = CalculoComissao.Executar(vendas.Take(1).ToList());
 
         Assert.Equal(comissaoEsperada[0].ValorProduzido, comissaoObtida[0].ValorProduzido);
         Assert.Equal(comissaoEsperada[0].ValorComissao, comissaoObtida[0].ValorComissao);
@@ -33,7 +33,7 @@ public class ObterComissaoTest
             new() { Vendedor = "João Silva", ValorProduzido = 320.40m, ValorComissao = 323.604m  },
         };
         
-        var comissaoObtida = CalculoComissao.CalcularComissao(vendas.Skip(1).ToList());
+        var comissaoObtida = CalculoComissao.Executar(vendas.Skip(1).ToList());
 
         Assert.Equal(comissaoEsperada[0].ValorProduzido, comissaoObtida[0].ValorProduzido);
         Assert.Equal(comissaoEsperada[0].ValorComissao, comissaoObtida[0].ValorComissao);

@@ -65,7 +65,7 @@ public partial class Form1 : Form
         try
         {
             var vendas = JsonDataLoader.CarregarVendas(_vendasPath);
-            var resultados = CalculoComissao.CalcularComissao(vendas);
+            var resultados = CalculoComissao.Executar(vendas);
             gridComissoes.DataSource = null;
             gridComissoes.DataSource = resultados;
         }

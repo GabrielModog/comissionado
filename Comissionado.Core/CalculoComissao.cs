@@ -9,7 +9,7 @@ namespace Comissionado.Core;
 
 public static class CalculoComissao
 {
-    public static List<ResultadoComissao> CalcularComissao(List<Venda> vendas)
+    public static List<ResultadoComissao> Executar(List<Venda> vendas)
     {
         var porVendedor = vendas
             .Select(x => new ResultadoComissao
